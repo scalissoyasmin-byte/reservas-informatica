@@ -2,9 +2,46 @@ const formulario = document.getElementById("formReserva");
 const listaReservas = document.getElementById("listaReservas");
 const mensagem = document.getElementById("mensagem");
 
-let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+const API = "http://localhost:3000/api/reservas";
 
-formulario.addEventListener("submit", function(event) {
+let reservas = [];
+
+
+// ===============================
+// CARREGAR RESERVAS DO SERVIDOR
+// ===============================
+
+async function carregarReservas() {
+
+    try {
+
+        const resposta = await fetch(API);
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar reservas");
+        }
+
+        reservas = await resposta.json();
+
+        mostrarReservas();
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagem.textContent =
+            "❌ Não foi possível carregar as reservas.";
+
+        mensagem.style.color = "red";
+    }
+}
+
+
+// ===============================
+// FAZER NOVA RESERVA
+// ===============================
+
+formulario.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
@@ -14,62 +51,84 @@ formulario.addEventListener("submit", function(event) {
     const horario = document.getElementById("horario").value;
     const finalidade = document.getElementById("finalidade").value;
 
-    const existe = reservas.some(function(reserva) {
-
-        return reserva.laboratorio === laboratorio &&
-               reserva.data === data &&
-               reserva.horario === horario;
-
-    });
-
-    if (existe) {
-
-        mensagem.textContent =
-            "❌ Esse laboratório já está reservado nesse horário.";
-
-        mensagem.style.color = "red";
-
-        return;
-    }
 
     const novaReserva = {
 
-        id: Date.now(),
-
         nome: nome,
-
         laboratorio: laboratorio,
-
         data: data,
-
         horario: horario,
-
         finalidade: finalidade
 
     };
 
-    reservas.push(novaReserva);
 
-    localStorage.setItem(
-        "reservas",
-        JSON.stringify(reservas)
-    );
+    try {
 
-    mensagem.textContent =
-        "✅ Reserva realizada com sucesso!";
+        const resposta = await fetch(API, {
 
-    mensagem.style.color = "green";
+            method: "POST",
 
-    formulario.reset();
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    mostrarReservas();
+            body: JSON.stringify(novaReserva)
+
+        });
+
+
+        const resultado = await resposta.json();
+
+
+        // Se houver conflito de horário
+        if (!resposta.ok) {
+
+            mensagem.textContent =
+                "❌ " + resultado.erro;
+
+            mensagem.style.color = "red";
+
+            return;
+        }
+
+
+        // Adiciona a reserva recebida do servidor
+        reservas.push(resultado);
+
+
+        mensagem.textContent =
+            "✅ Reserva realizada com sucesso!";
+
+        mensagem.style.color = "green";
+
+
+        formulario.reset();
+
+        mostrarReservas();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagem.textContent =
+            "❌ Não foi possível realizar a reserva.";
+
+        mensagem.style.color = "red";
+    }
 
 });
 
 
+// ===============================
+// MOSTRAR RESERVAS
+// ===============================
+
 function mostrarReservas() {
 
     listaReservas.innerHTML = "";
+
 
     if (reservas.length === 0) {
 
@@ -82,11 +141,13 @@ function mostrarReservas() {
         return;
     }
 
+
     reservas.forEach(function(reserva) {
 
         const div = document.createElement("div");
 
         div.className = "reserva-card";
+
 
         div.innerHTML = `
 
@@ -120,6 +181,7 @@ function mostrarReservas() {
 
         `;
 
+
         listaReservas.appendChild(div);
 
     });
@@ -127,22 +189,47 @@ function mostrarReservas() {
 }
 
 
-function cancelarReserva(id) {
+// ===============================
+// CANCELAR RESERVA
+// ===============================
 
-    reservas = reservas.filter(function(reserva) {
+async function cancelarReserva(id) {
 
-        return reserva.id !== id;
+    try {
 
-    });
+        const resposta = await fetch(`${API}/${id}`, {
 
-    localStorage.setItem(
-        "reservas",
-        JSON.stringify(reservas)
-    );
+            method: "DELETE"
 
-    mostrarReservas();
+        });
+
+
+        if (!resposta.ok) {
+
+            throw new Error("Erro ao cancelar reserva");
+
+        }
+
+
+        // Atualiza a lista buscando novamente no servidor
+        await carregarReservas();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagem.textContent =
+            "❌ Não foi possível cancelar a reserva.";
+
+        mensagem.style.color = "red";
+    }
 
 }
 
 
-mostrarReservas();
+// ===============================
+// INICIAR SISTEMA
+// ===============================
+
+carregarReservas();
