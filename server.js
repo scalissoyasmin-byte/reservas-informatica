@@ -8,6 +8,9 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.get("/", (req, res) => {
+    res.send("Sistema de reservas funcionando!");
+});
 
 const arquivoReservas = path.join(__dirname, "reservas.json");
 
