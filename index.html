@@ -6,6 +6,53 @@
     <title>Sistema de Reservas Informáticas</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- AJUSTES DA PÁGINA INICIAL -->
+    <style>
+        .inicio {
+            min-height: 230px;
+            padding: 35px 7%;
+        }
+
+        .inicio h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .inicio p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .laboratorios {
+            padding: 30px 7%;
+        }
+
+        .laboratorios h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .inicio {
+                min-height: 200px;
+                padding: 25px 6%;
+            }
+
+            .inicio h2 {
+                font-size: 25px;
+            }
+
+            .laboratorios {
+                padding: 25px 5%;
+            }
+
+            .laboratorios h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -105,9 +152,7 @@
 
         <select id="laboratorio" required>
 
-            <option value="">
-                Selecione um laboratório
-            </option>
+            <option value="">Selecione um laboratório</option>
 
             <option value="Lab 01 - Informática Básica">
                 Lab 01 - Informática Básica
@@ -127,65 +172,33 @@
 
         </select>
 
-
         <label for="data">Data</label>
 
-        <input
-            type="date"
-            id="data"
-            required
-        >
-
+        <input type="date" id="data" required>
 
         <label for="horario">Horário</label>
 
         <select id="horario" required>
 
-            <option value="">
-                Selecione um horário
-            </option>
+            <option value="">Selecione um horário</option>
 
-            <option value="07:10 - 08:50">
-                07:10 - 08:50
-            </option>
-
-            <option value="08:00 - 09:00">
-                08:00 - 09:00
-            </option>
-
-            <option value="09:40 - 10:50">
-                09:40 - 10:50
-            </option>
-
-            <option value="10:50 - 11:40">
-                10:50 - 11:40
-            </option>
-
-            <option value="13:30 - 14:20">
-                13:30 - 14:20
-            </option>
-
-            <option value="14:20 - 15:10">
-                14:20 - 15:10
-            </option>
-
-            <option value="15:10 - 16:00">
-                15:10 - 16:00
-            </option>
+            <option value="07:10 - 08:50">07:10 - 08:50</option>
+            <option value="08:00 - 09:00">08:00 - 09:00</option>
+            <option value="09:40 - 10:50">09:40 - 10:50</option>
+            <option value="10:50 - 11:40">10:50 - 11:40</option>
+            <option value="13:30 - 14:20">13:30 - 14:20</option>
+            <option value="14:20 - 15:10">14:20 - 15:10</option>
+            <option value="15:10 - 16:00">15:10 - 16:00</option>
 
         </select>
 
-
-        <label for="finalidade">
-            Finalidade da reserva
-        </label>
+        <label for="finalidade">Finalidade da reserva</label>
 
         <textarea
             id="finalidade"
             placeholder="Descreva o motivo da reserva..."
             required
         ></textarea>
-
 
         <button type="submit">
             Confirmar Reserva
@@ -248,19 +261,21 @@
         </div>
 
         <div class="info-destaque">
-        
+
             <img src="escola.djn.jpg"
                  alt="E.E. Dom João Nery"
                  class="foto-escola">
-        
+
             <h3>Educação e Tecnologia</h3>
-        
+
             <p>
                 Unindo aprendizado, organização e tecnologia
                 para facilitar o dia a dia escolar.
             </p>
-        
+
         </div>
+
+    </div>
 
 </section>
 
@@ -322,13 +337,15 @@
             <h2>Sobre Nós</h2>
 
             <p>
-                Olá! Eu somos <strong>Yasmin,Beatriz,Ana clara e Sofia</strong>, estudantes da
-                E.E. Dom João Nery e desenvolvedoras deste projeto.
+                Olá! Nós somos
+                <strong>Yasmin, Beatriz, Ana Clara e Sofia</strong>,
+                estudantes da E.E. Dom João Nery e desenvolvedoras
+                deste projeto.
             </p>
 
             <p>
                 Este sistema foi criado como parte dos nossos estudos
-                na área de tecnologia e programação, buscamos aplicar
+                na área de tecnologia e programação, buscando aplicar
                 na prática conhecimentos de desenvolvimento web.
             </p>
 
@@ -354,13 +371,9 @@
 
     <h3>Sistema de Reservas Informáticas</h3>
 
-    <p>
-        E.E. Dom João Nery
-    </p>
+    <p>E.E. Dom João Nery</p>
 
-    <p>
-        Desenvolvido como projeto acadêmico
-    </p>
+    <p>Desenvolvido como projeto acadêmico</p>
 
     <p class="copyright">
         © 2026 - Sistema de Reservas Informáticas
@@ -373,3 +386,4 @@
 
 </body>
 </html>
+
